@@ -1,0 +1,30 @@
+import json      #TO READ AND MANIPULATE JSON TYPE OF FILE
+from difflib import get_close_matches
+
+data = json.load(open("data.json"))    #READ JSON FILE
+
+# CODE TO FIND THE WORD WITH THEIR MEANINGS IN DICTIONARY
+
+def translate(w):
+
+    if w.lower() in data:
+            return data[w.lower()]
+    elif len(get_close_matches(w,data.keys()))>0:
+        yn = input("did you mean %s , if yes press Y and if no press N : " % get_close_matches(w,data.keys())[0])
+        if yn =="Y":
+            return data[get_close_matches(w,data.keys())[0]]
+        elif yn == "N":
+             return "the word is missing , dhyaan se dekho! "
+        else:
+            return "I did not understand  please press only Y or N "
+    else:
+        return "the word is missing , dhyaan se dekho! "
+
+word = input("enter the word : ")  # USER INPUT
+output = translate(word)
+
+if type(output) == list:
+    for item in output:
+        print(item)
+else:
+    print(output)
